@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="css/style.css">
+    <!--<meta http-equiv="Refresh" content="2"> -->
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<title>Мафия</title>
+</head>
+<body>
+  <div class="Wrapper">
+    <div id="tableContainer" class="Game-adaptive"></div>
+  <script src="js/script.js"></script>
+  <script>
+    const tableContainer = document.getElementById("tableContainer");
+const playerCount = localStorage.getItem("playerCount");
+
+if (playerCount) {
+  const table = document.createElement("table");
+  table.border = "0";
+
+  const rowCount = playerCount;
+
+  const assignRoles = (num_players) => {
+    var roles = [
+      "Адвокат", "Бос", "Мафия", "Маньяк", "Детектив", "Сыщик", "Доктор", "Мститель",
+      "Везунчик", "Оборотень", "Судья", "Мафия", "Отравитель", "Ищейка", "Журналист", "Мафия, Революционер"
+    ];
+
+    let assignedRoles = [];
+
+    if (num_players >= 8) {
+      assignedRoles = roles.slice(0, 8);
+
+      if (num_players >= 9) {
+        assignedRoles.push("Везунчик");
+
+        if (num_players >= 10) {
+          assignedRoles.push("Оборотень");
+
+          if (num_players >= 11) {
+            assignedRoles.push("Судья");
+
+            if (num_players >= 12) {
+              assignedRoles.push("Мафия");
+
+              if (num_players >= 13) {
+                assignedRoles.push("Отравитель");
+
+                if (num_players >= 14) {
+                  assignedRoles.splice(11, 1, "Ищейка");
+                  assignedRoles.push("Журналист");
+
+                  if (num_players >= 15) {
+                    assignedRoles.push("Мафия");
+
+                    if (num_players >= 16) {
+                      assignedRoles.push("Революционер");
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+
+    return assignedRoles;
+  };
+
+  const roles = assignRoles(playerCount);
+
+  for (let i = 0; i < rowCount; i++) {
+    const row = table.insertRow();
+
+    const cell1 = row.insertCell();
+    cell1.textContent = "Игрок " + (i + 1);
+
+    const cell2 = row.insertCell();
+    cell2.textContent = roles[i];
+
+    const cell3 = row.insertCell();
+    const checkbox = document.createElement("input");
+    checkbox.type = "checkbox";
+    checkbox.name = "killRadio";
+    checkbox.value = i + 1;
+    cell3.appendChild(checkbox);
+  }
+
+  tableContainer.appendChild(table);
+}
+  </script>
+  </div>
+</body>
+
+</html>
